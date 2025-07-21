@@ -28,51 +28,26 @@
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-#ifndef XC_HEADER_TEMPLATE_H
-#define	XC_HEADER_TEMPLATE_H
+#ifndef CONFIG_H  // Prevents multiple includes (standard guard)
+#define CONFIG_H
 
-#include <xc.h> // include processor files - each processor file is guarded.  
+// Oscillator frequency (used for delays)
+#define _XTAL_FREQ 16000000
 
-// TODO Insert appropriate #include <>
+// LCD pins (as per your wiring)
+#define LCD_RS PORTAbits.RA6
+#define LCD_RW PORTAbits.RA5
+#define LCD_EN PORTAbits.RA7
+#define LCD_DATA PORTA  // Data on RA0-RA3 (lower nibble)
 
-// TODO Insert C++ class definitions if appropriate
+// Encoder pins
+#define ENC_A PORTBbits.RB1
+#define ENC_B PORTBbits.RB2
+#define BUTTON PORTBbits.RB6
 
-// TODO Insert declarations
+// Menu constants (we'll expand these later)
+#define MAX_MENU_ITEMS 4  // Start with 4; scale to 12 soon
+#define LONG_PRESS_MS 2000  // 2 seconds for long press
+#define DEBOUNCE_MS 20  // Ignore button noise <20ms
 
-// Comment a function and leverage automatic documentation with slash star star
-/**
-    <p><b>Function prototype:</b></p>
-  
-    <p><b>Summary:</b></p>
-
-    <p><b>Description:</b></p>
-
-    <p><b>Precondition:</b></p>
-
-    <p><b>Parameters:</b></p>
-
-    <p><b>Returns:</b></p>
-
-    <p><b>Example:</b></p>
-    <code>
- 
-    </code>
-
-    <p><b>Remarks:</b></p>
- */
-// TODO Insert declarations or function prototypes (right here) to leverage 
-// live documentation
-
-#ifdef	__cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
-    // TODO If C++ is being used, regular C code needs function names to have C 
-    // linkage so the functions can be used by the c code. 
-
-#ifdef	__cplusplus
-}
-#endif /* __cplusplus */
-
-#endif	/* XC_HEADER_TEMPLATE_H */
-
+#endif

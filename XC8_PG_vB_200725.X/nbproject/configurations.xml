@@ -30,7 +30,7 @@
     <conf name="default" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <targetDevice>PIC18F2525</targetDevice>
+        <targetDevice>PIC18F25K22</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
@@ -39,7 +39,7 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="PIC18Fxxxx_DFP" vendor="Microchip" version="1.7.171"/>
+        <pack name="PIC18F-K_DFP" vendor="Microchip" version="1.15.303"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
