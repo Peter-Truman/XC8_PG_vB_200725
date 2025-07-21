@@ -9568,7 +9568,6 @@ extern volatile unsigned long ms_counter;
 #pragma config CCP3MX = PORTB5
 #pragma config HFOFST = ON
 #pragma config T3CMX = PORTC0
-#pragma config P2BMX = PORTD2
 #pragma config MCLRE = INTMCLR
 #pragma config STVREN = ON
 #pragma config LVP = OFF

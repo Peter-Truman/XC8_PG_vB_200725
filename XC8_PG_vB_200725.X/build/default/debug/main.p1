@@ -1,10 +1,10 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"59 main.c
-[; ;main.c: 59:     if (PIR1bits.TMR1IF) {
+"58 main.c
+[; ;main.c: 58: void __attribute__((picinterrupt(("")))) isr(void) {
 [c E6212 0 1 2 .. ]
 [n E6212 . IDLE MENU EDIT  ]
-"64
-[; ;main.c: 64:         ms_counter++;
+"63
+[; ;main.c: 63:         TMR1L = (65536 - 500) & 0xFF;
 [s S850 `*Cuc 1 `i 1 `i 1 `i 1 `*Cuc 1 ]
 [n S850 . name value min max unit ]
 "36 ./lcd.h
@@ -932,93 +932,90 @@ Version 4.0 HI-TECH Software Intermediate Code
 [p x T3CMX  =  PORTC0    ]
 "33
 [; ;main.c: 33:     LCD_String("Main Menu");
-[p x P2BMX  =  PORTD2    ]
+[p x MCLRE  =  INTMCLR   ]
 "34
 [; ;main.c: 34:     for (int i = 0; i < 4; i++) {
-[p x MCLRE  =  INTMCLR   ]
+[p x STVREN  =  ON       ]
 "35
 [; ;main.c: 35:         LCD_SetCursor((unsigned char)(i + 1), 0);
-[p x STVREN  =  ON       ]
+[p x LVP  =  OFF         ]
 "36
 [; ;main.c: 36:         if (i == current_index) LCD_Data('>');
-[p x LVP  =  OFF         ]
+[p x XINST  =  OFF       ]
 "37
 [; ;main.c: 37:         else LCD_Data(' ');
-[p x XINST  =  OFF       ]
+[p x CP0  =  OFF         ]
 "38
 [; ;main.c: 38:         LCD_String(params[i].name);
-[p x CP0  =  OFF         ]
+[p x CP1  =  OFF         ]
 "39
 [; ;main.c: 39:     }
-[p x CP1  =  OFF         ]
+[p x CP2  =  OFF         ]
 "40
 [; ;main.c: 40: }
-[p x CP2  =  OFF         ]
+[p x CP3  =  OFF         ]
 "41
 [; ;main.c: 41: 
-[p x CP3  =  OFF         ]
+[p x CPB  =  OFF         ]
 "42
 [; ;main.c: 42: 
-[p x CPB  =  OFF         ]
+[p x CPD  =  OFF         ]
 "43
 [; ;main.c: 43: void draw_edit(void) {
-[p x CPD  =  OFF         ]
+[p x WRT0  =  OFF        ]
 "44
 [; ;main.c: 44:     char buf[20];
-[p x WRT0  =  OFF        ]
+[p x WRT1  =  OFF        ]
 "45
 [; ;main.c: 45:     LCD_Clear();
-[p x WRT1  =  OFF        ]
+[p x WRT2  =  OFF        ]
 "46
 [; ;main.c: 46:     LCD_SetCursor(0, 0);
-[p x WRT2  =  OFF        ]
+[p x WRT3  =  OFF        ]
 "47
 [; ;main.c: 47:     LCD_String("< ");
-[p x WRT3  =  OFF        ]
+[p x WRTC  =  OFF        ]
 "48
 [; ;main.c: 48:     LCD_String(params[current_index].name);
-[p x WRTC  =  OFF        ]
+[p x WRTB  =  OFF        ]
 "49
 [; ;main.c: 49:     LCD_SetCursor(1, 0);
-[p x WRTB  =  OFF        ]
+[p x WRTD  =  OFF        ]
 "50
 [; ;main.c: 50:     LCD_String("  Value: ");
-[p x WRTD  =  OFF        ]
+[p x EBTR0  =  OFF       ]
 "51
 [; ;main.c: 51:     sprintf(buf, "%d %s", temp_value, params[current_index].unit);
-[p x EBTR0  =  OFF       ]
+[p x EBTR1  =  OFF       ]
 "52
 [; ;main.c: 52:     LCD_String(buf);
-[p x EBTR1  =  OFF       ]
+[p x EBTR2  =  OFF       ]
 "53
 [; ;main.c: 53:     LCD_SetCursor(3, 0);
-[p x EBTR2  =  OFF       ]
+[p x EBTR3  =  OFF       ]
 "54
 [; ;main.c: 54:     LCD_String("Short: Save | Long: Exit");
-[p x EBTR3  =  OFF       ]
-"55
-[; ;main.c: 55: }
 [p x EBTRB  =  OFF       ]
-"59
-[; ;main.c: 59:     if (PIR1bits.TMR1IF) {
+"58
+[; ;main.c: 58: void __attribute__((picinterrupt(("")))) isr(void) {
 [v _current_state `E6212 ~T0 @X0 1 e ]
 [i _current_state
 . `E6212 0
 ]
-"60
-[; ;main.c: 60:         PIR1bits.TMR1IF = 0;
+"59
+[; ;main.c: 59:     if (PIR1bits.TMR1IF) {
 [v _current_index `i ~T0 @X0 1 e ]
 [i _current_index
 -> 0 `i
 ]
-"61
-[; ;main.c: 61: 
+"60
+[; ;main.c: 60:         PIR1bits.TMR1IF = 0;
 [v _temp_value `i ~T0 @X0 1 e ]
 [i _temp_value
 -> 0 `i
 ]
-"70
-[; ;main.c: 70:     OSCCON = 0x70;
+"69
+[; ;main.c: 69: void main(void) {
 [v _params `S850 ~T0 @X0 -> 4 `i e ]
 [i _params
 :U ..
@@ -1052,48 +1049,48 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"78
-[; ;main.c: 78:     PORTB = 0;
+"77
+[; ;main.c: 77:     PORTA = 0;
 [v _draw_idle `(v ~T0 @X0 1 ef ]
 {
 [e :U _draw_idle ]
 [f ]
+"78
+[; ;main.c: 78:     PORTB = 0;
+[e ( _LCD_Clear ..  ]
 "79
 [; ;main.c: 79:     INTCON2bits.RBPU = 0;
-[e ( _LCD_Clear ..  ]
+[e ( _LCD_SetCursor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 "80
 [; ;main.c: 80: 
-[e ( _LCD_SetCursor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[e ( _LCD_String (1 :s 9C ]
 "81
 [; ;main.c: 81: 
-[e ( _LCD_String (1 :s 9C ]
+[e ( _LCD_SetCursor (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
 "82
 [; ;main.c: 82:     T1CON = 0b00110001;
-[e ( _LCD_SetCursor (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[e ( _LCD_String (1 :s 10C ]
 "83
 [; ;main.c: 83:     PIE1bits.TMR1IE = 1;
-[e ( _LCD_String (1 :s 10C ]
-"84
-[; ;main.c: 84:     INTCONbits.PEIE = 1;
 [e :UE 851 ]
 }
-"87
-[; ;main.c: 87:     LCD_Init();
+"86
+[; ;main.c: 86: 
 [v _draw_menu `(v ~T0 @X0 1 ef ]
 {
 [e :U _draw_menu ]
 [f ]
+"87
+[; ;main.c: 87:     LCD_Init();
+[e ( _LCD_Clear ..  ]
 "88
 [; ;main.c: 88:     draw_idle();
-[e ( _LCD_Clear ..  ]
+[e ( _LCD_SetCursor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 "89
 [; ;main.c: 89: 
-[e ( _LCD_SetCursor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[e ( _LCD_String (1 :s 11C ]
 "90
 [; ;main.c: 90:     while (1) {
-[e ( _LCD_String (1 :s 11C ]
-"91
-[; ;main.c: 91:         char enc = get_encoder();
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
@@ -1101,273 +1098,274 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $U 854  ]
 [e :U 853 ]
 {
+"91
+[; ;main.c: 91:         char enc = get_encoder();
+[e ( _LCD_SetCursor (2 , -> + _i -> 1 `i `uc -> -> 0 `i `uc ]
 "92
 [; ;main.c: 92:         char btn = get_button();
-[e ( _LCD_SetCursor (2 , -> + _i -> 1 `i `uc -> -> 0 `i `uc ]
-"93
-[; ;main.c: 93: 
 [e $ ! == _i _current_index 856  ]
 [e ( _LCD_Data (1 -> -> 62 `ui `uc ]
 [e $U 857  ]
-"94
-[; ;main.c: 94:         switch (current_state) {
+"93
+[; ;main.c: 93: 
 [e :U 856 ]
 [e ( _LCD_Data (1 -> -> 32 `ui `uc ]
 [e :U 857 ]
+"94
+[; ;main.c: 94:         switch (current_state) {
+[e ( _LCD_String (1 . *U + &U _params * -> -> _i `ui `ux -> -> # *U &U _params `ui `ux 0 ]
 "95
 [; ;main.c: 95:             case IDLE:
-[e ( _LCD_String (1 . *U + &U _params * -> -> _i `ui `ux -> -> # *U &U _params `ui `ux 0 ]
-"96
-[; ;main.c: 96:                 if (btn == 1) {
 }
 [e ++ _i -> 1 `i ]
 [e $ < _i -> 4 `i 853  ]
 [e :U 854 ]
 }
-"97
-[; ;main.c: 97:                     current_state = MENU;
+"96
+[; ;main.c: 96:                 if (btn == 1) {
 [e :UE 852 ]
 }
-"100
-[; ;main.c: 100:                 }
+"99
+[; ;main.c: 99:                     draw_menu();
 [v _draw_edit `(v ~T0 @X0 1 ef ]
 {
 [e :U _draw_edit ]
 [f ]
+"100
+[; ;main.c: 100:                 }
+[v _buf `uc ~T0 @X0 -> 20 `i a ]
 "101
 [; ;main.c: 101:                 break;
-[v _buf `uc ~T0 @X0 -> 20 `i a ]
+[e ( _LCD_Clear ..  ]
 "102
 [; ;main.c: 102:             case MENU:
-[e ( _LCD_Clear ..  ]
+[e ( _LCD_SetCursor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
 "103
 [; ;main.c: 103:                 if (enc) {
-[e ( _LCD_SetCursor (2 , -> -> 0 `i `uc -> -> 0 `i `uc ]
+[e ( _LCD_String (1 :s 12C ]
 "104
 [; ;main.c: 104:                     current_index += enc;
-[e ( _LCD_String (1 :s 12C ]
+[e ( _LCD_String (1 . *U + &U _params * -> -> _current_index `ui `ux -> -> # *U &U _params `ui `ux 0 ]
 "105
 [; ;main.c: 105:                     if (current_index < 0) current_index = 4 - 1;
-[e ( _LCD_String (1 . *U + &U _params * -> -> _current_index `ui `ux -> -> # *U &U _params `ui `ux 0 ]
+[e ( _LCD_SetCursor (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
 "106
 [; ;main.c: 106:                     if (current_index >= 4) current_index = 0;
-[e ( _LCD_SetCursor (2 , -> -> 1 `i `uc -> -> 0 `i `uc ]
+[e ( _LCD_String (1 :s 13C ]
 "107
 [; ;main.c: 107:                     draw_menu();
-[e ( _LCD_String (1 :s 13C ]
+[e ( _sprintf (1 , , (. , &U _buf :s 14C _temp_value . *U + &U _params * -> -> _current_index `ui `ux -> -> # *U &U _params `ui `ux 4 ]
 "108
 [; ;main.c: 108:                 }
-[e ( _sprintf (1 , , (. , &U _buf :s 14C _temp_value . *U + &U _params * -> -> _current_index `ui `ux -> -> # *U &U _params `ui `ux 4 ]
+[e ( _LCD_String (1 -> &U _buf `*Cuc ]
 "109
 [; ;main.c: 109:                 if (btn == 1) {
-[e ( _LCD_String (1 -> &U _buf `*Cuc ]
+[e ( _LCD_SetCursor (2 , -> -> 3 `i `uc -> -> 0 `i `uc ]
 "110
 [; ;main.c: 110:                     temp_value = params[current_index].value;
-[e ( _LCD_SetCursor (2 , -> -> 3 `i `uc -> -> 0 `i `uc ]
+[e ( _LCD_String (1 :s 15C ]
 "111
 [; ;main.c: 111:                     current_state = EDIT;
-[e ( _LCD_String (1 :s 15C ]
-"112
-[; ;main.c: 112:                     draw_edit();
 [e :UE 858 ]
 }
 [v $root$_isr `(v ~T0 @X0 0 e ]
-"115
-[; ;main.c: 115:                     current_state = IDLE;
+"114
+[; ;main.c: 114:                 if (btn == 2) {
 [v _isr `(v ~T1 @X0 1 ef ]
 {
 [e :U _isr ]
 [f ]
-"116
-[; ;main.c: 116:                     draw_idle();
+"115
+[; ;main.c: 115:                     current_state = IDLE;
 [e $ ! != -> . . _PIR1bits 0 0 `i -> 0 `i 860  ]
 {
-"117
-[; ;main.c: 117:                 }
+"116
+[; ;main.c: 116:                     draw_idle();
 [e = . . _PIR1bits 0 0 -> -> 0 `i `uc ]
+"118
+[; ;main.c: 118:                 break;
+[e = _TMR1H -> >> - -> 65536 `l -> -> 500 `i `l -> 8 `i `uc ]
 "119
 [; ;main.c: 119:             case EDIT:
-[e = _TMR1H -> >> - -> 65536 `l -> -> 500 `i `l -> 8 `i `uc ]
+[e = _TMR1L -> & - -> 65536 `l -> -> 500 `i `l -> -> 255 `i `l `uc ]
 "120
 [; ;main.c: 120:                 if (enc) {
-[e = _TMR1L -> & - -> 65536 `l -> -> 500 `i `l -> -> 255 `i `l `uc ]
+[e ++ _ms_counter -> -> 1 `i `Vul ]
 "121
 [; ;main.c: 121:                     temp_value += enc;
-[e ++ _ms_counter -> -> 1 `i `Vul ]
-"122
-[; ;main.c: 122:                     if (temp_value < params[current_index].min) temp_value = params[current_index].min;
 }
 [e :U 860 ]
-"123
-[; ;main.c: 123:                     if (temp_value > params[current_index].max) temp_value = params[current_index].max;
+"122
+[; ;main.c: 122:                     if (temp_value < params[current_index].min) temp_value = params[current_index].min;
 [e :UE 859 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"126
-[; ;main.c: 126:                 if (btn == 1) {
+"125
+[; ;main.c: 125:                 }
 [v _main `(v ~T0 @X0 1 ef ]
 {
 [e :U _main ]
 [f ]
+"126
+[; ;main.c: 126:                 if (btn == 1) {
+[e = _OSCCON -> -> 112 `i `uc ]
 "127
 [; ;main.c: 127:                     params[current_index].value = temp_value;
-[e = _OSCCON -> -> 112 `i `uc ]
+[e = . . _OSCTUNEbits 0 1 -> -> 0 `i `uc ]
 "128
 [; ;main.c: 128:                     current_state = MENU;
-[e = . . _OSCTUNEbits 0 1 -> -> 0 `i `uc ]
+[e = _ANSELA -> -> 0 `i `uc ]
 "129
 [; ;main.c: 129:                     draw_menu();
-[e = _ANSELA -> -> 0 `i `uc ]
+[e = _ANSELB -> -> 0 `i `uc ]
 "130
 [; ;main.c: 130:                 }
-[e = _ANSELB -> -> 0 `i `uc ]
+[e = _ANSELC -> -> 0 `i `uc ]
 "131
 [; ;main.c: 131:                 if (btn == 2) {
-[e = _ANSELC -> -> 0 `i `uc ]
+[e = _TRISA -> -> 0 `i `uc ]
 "132
 [; ;main.c: 132:                     current_state = IDLE;
-[e = _TRISA -> -> 0 `i `uc ]
+[e = _TRISB -> -> 70 `i `uc ]
 "133
 [; ;main.c: 133:                     draw_idle();
-[e = _TRISB -> -> 70 `i `uc ]
+[e = _PORTA -> -> 0 `i `uc ]
 "134
 [; ;main.c: 134:                 }
-[e = _PORTA -> -> 0 `i `uc ]
+[e = _PORTB -> -> 0 `i `uc ]
 "135
 [; ;main.c: 135:                 break;
-[e = _PORTB -> -> 0 `i `uc ]
-"136
-[; ;main.c: 136:         }
 [e = . . _INTCON2bits 2 1 -> -> 0 `i `uc ]
-"139
+"138
+[; ;main.c: 138: }
 [e = _T1CON -> -> 49 `i `uc ]
-"140
+"139
 [e = . . _PIE1bits 0 0 -> -> 1 `i `uc ]
-"141
+"140
 [e = . . _INTCONbits 1 6 -> -> 1 `i `uc ]
-"142
+"141
 [e = . . _INTCONbits 1 7 -> -> 1 `i `uc ]
-"144
+"143
 [e ( _LCD_Init ..  ]
-"145
+"144
 [e ( _draw_idle ..  ]
-"147
+"146
 [e :U 863 ]
 {
-"148
+"147
 [v _enc `uc ~T0 @X0 1 a ]
 [e = _enc ( _get_encoder ..  ]
-"149
+"148
 [v _btn `uc ~T0 @X0 1 a ]
 [e = _btn ( _get_button ..  ]
-"151
+"150
 [e $U 866  ]
 {
-"152
+"151
 [e :U 867 ]
-"153
+"152
 [e $ ! == -> _btn `i -> 1 `i 868  ]
 {
-"154
+"153
 [e = _current_state . `E6212 1 ]
-"155
+"154
 [e = _current_index -> 0 `i ]
-"156
+"155
 [e ( _draw_menu ..  ]
-"157
+"156
 }
 [e :U 868 ]
-"158
+"157
 [e $U 865  ]
-"159
+"158
 [e :U 869 ]
-"160
+"159
 [e $ ! != -> _enc `i -> 0 `i 870  ]
 {
-"161
+"160
 [e =+ _current_index -> _enc `i ]
-"162
+"161
 [e $ ! < _current_index -> 0 `i 871  ]
 [e = _current_index - -> 4 `i -> 1 `i ]
 [e :U 871 ]
-"163
+"162
 [e $ ! >= _current_index -> 4 `i 872  ]
 [e = _current_index -> 0 `i ]
 [e :U 872 ]
-"164
+"163
 [e ( _draw_menu ..  ]
-"165
+"164
 }
 [e :U 870 ]
-"166
+"165
 [e $ ! == -> _btn `i -> 1 `i 873  ]
 {
-"167
+"166
 [e = _temp_value . *U + &U _params * -> -> _current_index `ui `ux -> -> # *U &U _params `ui `ux 1 ]
-"168
+"167
 [e = _current_state . `E6212 2 ]
-"169
+"168
 [e ( _draw_edit ..  ]
-"170
+"169
 }
 [e :U 873 ]
-"171
+"170
 [e $ ! == -> _btn `i -> 2 `i 874  ]
 {
-"172
+"171
 [e = _current_state . `E6212 0 ]
-"173
+"172
 [e ( _draw_idle ..  ]
-"174
+"173
 }
 [e :U 874 ]
-"175
+"174
 [e $U 865  ]
-"176
+"175
 [e :U 875 ]
-"177
+"176
 [e $ ! != -> _enc `i -> 0 `i 876  ]
 {
-"178
+"177
 [e =+ _temp_value -> _enc `i ]
-"179
+"178
 [e $ ! < _temp_value . *U + &U _params * -> -> _current_index `ui `ux -> -> # *U &U _params `ui `ux 2 877  ]
 [e = _temp_value . *U + &U _params * -> -> _current_index `ui `ux -> -> # *U &U _params `ui `ux 2 ]
 [e :U 877 ]
-"180
+"179
 [e $ ! > _temp_value . *U + &U _params * -> -> _current_index `ui `ux -> -> # *U &U _params `ui `ux 3 878  ]
 [e = _temp_value . *U + &U _params * -> -> _current_index `ui `ux -> -> # *U &U _params `ui `ux 3 ]
 [e :U 878 ]
-"181
+"180
 [e ( _draw_edit ..  ]
-"182
+"181
 }
 [e :U 876 ]
-"183
+"182
 [e $ ! == -> _btn `i -> 1 `i 879  ]
 {
-"184
+"183
 [e = . *U + &U _params * -> -> _current_index `ui `ux -> -> # *U &U _params `ui `ux 1 _temp_value ]
-"185
+"184
 [e = _current_state . `E6212 1 ]
-"186
+"185
 [e ( _draw_menu ..  ]
-"187
+"186
 }
 [e :U 879 ]
-"188
+"187
 [e $ ! == -> _btn `i -> 2 `i 880  ]
 {
-"189
+"188
 [e = _current_state . `E6212 0 ]
-"190
+"189
 [e ( _draw_idle ..  ]
-"191
+"190
 }
 [e :U 880 ]
-"192
+"191
 [e $U 865  ]
-"193
+"192
 }
 [e $U 865  ]
 [e :U 866 ]
@@ -1376,12 +1374,12 @@ Version 4.0 HI-TECH Software Intermediate Code
  , $ -> . `E6212 2 `ui 875
  865 ]
 [e :U 865 ]
-"194
+"193
 }
 [e :U 862 ]
 [e $U 863  ]
 [e :U 864 ]
-"195
+"194
 [e :UE 861 ]
 }
 [p f _sprintf 8650880 ]

@@ -14,7 +14,7 @@
 #include "lcd.h"  // LCD functions
 #include "encoder.h"  // Input functions
 
-// Configuration bits for PIC18F25K22
+// Configuration bits for PIC18F25K22 (validated against datasheet; removed invalid P2BMX)
 #pragma config FOSC = INTIO67   // Internal oscillator block
 #pragma config PLLCFG = OFF     // Oscillator used directly (no PLL)
 #pragma config PRICLKEN = OFF   // Primary clock can be disabled by software
@@ -30,7 +30,6 @@
 #pragma config CCP3MX = PORTB5  // P3A/CCP3 input/output is multiplexed with RB5
 #pragma config HFOFST = ON      // HFINTOSC output and ready status are not delayed by the oscillator stable status
 #pragma config T3CMX = PORTC0   // T3CKI is on RC0
-#pragma config P2BMX = PORTD2   // P2B is on RD2
 #pragma config MCLRE = INTMCLR  // RE3 input pin enabled; MCLR disabled
 #pragma config STVREN = ON      // Stack full/underflow will cause Reset
 #pragma config LVP = OFF        // Single-Supply ICSP disabled
@@ -111,11 +110,11 @@ void draw_edit(void) {
     LCD_String("Short: Save | Long: Exit");
 }
 
-// Interrupt service routine (for ms timer) - use __interrupt() for XC8 v2+
+// Interrupt service routine (for ms timer) - use __interrupt() for XC8 v3+
 void __interrupt() isr(void) {
     if (PIR1bits.TMR1IF) {  // Timer1 overflow
         PIR1bits.TMR1IF = 0;
-        // Reload for ~1ms interval (at 16MHz, prescaler 1:8: Fosc/4 = 4MHz, /8 = 500kHz, 500 ticks/ms, use 500 for 1ms)
+        // Reload for ~1ms interval (at 16MHz, prescaler 1:8: Fosc/4 = 4MHz, /8 = 500kHz, 500 ticks = 1ms)
         TMR1H = (65536 - 500) >> 8;
         TMR1L = (65536 - 500) & 0xFF;
         ms_counter++;
