@@ -28,19 +28,26 @@
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-// config.h
-// config.h
-#ifndef CONFIG_H
+#ifndef CONFIG_H  // Prevents multiple includes (standard guard)
 #define CONFIG_H
 
-#include <xc.h>
+// Oscillator frequency (used for delays)
+#define _XTAL_FREQ 16000000
 
-// Configuration bits for PIC18F2525
-#pragma config FOSC = INTIO67    // Internal oscillator, RA6 and RA7 as I/O
-#pragma config WDT = OFF         // Watchdog Timer off
-#pragma config MCLRE = ON        // MCLR pin enabled
-#pragma config LVP = OFF         // Low-voltage programming off
+// LCD pins (as per your wiring)
+#define LCD_RS PORTAbits.RA6
+#define LCD_RW PORTAbits.RA5
+#define LCD_EN PORTAbits.RA7
+#define LCD_DATA PORTA  // Data on RA0-RA3 (lower nibble)
 
-#define _XTAL_FREQ 16000000UL  // 16 MHz internal oscillator
+// Encoder pins
+#define ENC_A PORTBbits.RB1
+#define ENC_B PORTBbits.RB2
+#define BUTTON PORTBbits.RB6
 
-#endif /* CONFIG_H */
+// Menu constants (we'll expand these later)
+#define MAX_MENU_ITEMS 4  // Start with 4; scale to 12 soon
+#define LONG_PRESS_MS 2000  // 2 seconds for long press
+#define DEBOUNCE_MS 20  // Ignore button noise <20ms
+
+#endif

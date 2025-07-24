@@ -28,29 +28,14 @@
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-// lcd.h
-// lcd.h
 #ifndef LCD_H
 #define LCD_H
 
-#include <xc.h>
-#include <stdint.h>
-
-#define LCD_RS LATAbits.LATA6
-#define LCD_RW LATAbits.LATA5
-#define LCD_EN LATAbits.LATA7
-#define LCD_D4 LATAbits.LATA0
-#define LCD_D5 LATAbits.LATA1
-#define LCD_D6 LATAbits.LATA2
-#define LCD_D7 LATAbits.LATA3
-
-#define LCD_WIDTH 20
-#define LCD_LINES 4
-
-void LCD_Init(void);
-void LCD_Command(uint8_t cmd);
-void LCD_WriteChar(uint8_t chr);
-void LCD_SetCursor(uint8_t line, uint8_t pos);
-void LCD_Clear(void);
+// Function prototypes (declarations)
+void LCD_Init(void);  // Sets up the LCD
+void LCD_Clear(void);  // Clears the screen
+void LCD_SetCursor(unsigned char row, unsigned char col);  // Moves cursor to row/col
+void LCD_String(const char *str);  // Prints a string
+void LCD_Data(unsigned char data);  // Prints a single character (used internally)
 
 #endif

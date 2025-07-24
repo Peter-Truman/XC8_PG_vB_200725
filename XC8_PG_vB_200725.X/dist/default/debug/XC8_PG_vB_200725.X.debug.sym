@@ -337,7 +337,7 @@ __pidataCOMRAM 1420 0 CODE 0
 _get_button CCA 0 CODE 0
 __smallconst 600 0 SMALLCONST 0
 LCD_SetCursor@col 5 0 COMRAM 1
-__Hreset_vec 6 0 CODE 0
+__Hreset_vec 4 0 CODE 0
 __Lreset_vec 0 0 CODE 0
 vfpfcnvrt@ap D 0 COMRAM 1
 __accesstop 60 0 ABS 0
@@ -373,7 +373,7 @@ __activetblptr 2 0 ABS 0
 ___awmod@counter 5 0 COMRAM 1
 ___awdiv@dividend 1 0 COMRAM 1
 %segments
-reset_vec 0 5 CODE 0 0
+reset_vec 0 3 CODE 0 0
 intcode 8 35 CODE 8 0
 smallconst 600 693 SMALLCONST 600 0
 cstackCOMRAM 1 5D COMRAM 1 1
@@ -381,7 +381,7 @@ bssBANK0 60 9F BANK0 60 1
 text8 694 1420 CODE 694 0
 %locals
 dist/default/debug\XC8_PG_vB_200725.X.debug.o
-C:\Users\PeeWee\AppData\Local\Temp\xcAs4ds.\driver_tmp_1.s
+C:\Users\PeeWee\AppData\Local\Temp\xcAsuv8.\driver_tmp_1.s
 1927 11EC 0 CODE 0
 1929 11EC 0 CODE 0
 1932 11EC 0 CODE 0
@@ -718,7 +718,7 @@ lcd.c
 21 13A2 0 CODE 0
 22 13A4 0 CODE 0
 23 13AC 0 CODE 0
-C:\Users\PeeWee\AppData\Local\Temp\xcAs4ds.\driver_tmp_1.s
+C:\Users\PeeWee\AppData\Local\Temp\xcAsuv8.\driver_tmp_1.s
 6204 8 0 CODE 0
 main.c
 114 8 0 CODE 0
