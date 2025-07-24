@@ -8,73 +8,73 @@
 
 // Updated lcd.c with LCD_Data moved before LCD_String
 
-#include <xc.h>  // XC8 core include
-#include "config.h"  // For pins and _XTAL_FREQ delays
+// lcd.c
+// lcd.c
+#include "lcd.h"
+#include <xc.h>
+#include <stdint.h>
 
-// Private helper: Sends 4-bit data to LCD
-static void LCD_SendNibble(unsigned char nibble, unsigned char rs) {
-    PORTA = (PORTA & 0xF0) | (nibble & 0x0F);  // Set data bits RA0-RA3
-    LCD_RS = rs;  // 0 for command, 1 for data
-    LCD_RW = 0;   // Write mode
-    LCD_EN = 1;   // Enable pulse
-    __delay_us(1);
+void LCD_WriteNibble(uint8_t nibble) {
+    LCD_D4 = (nibble >> 0) & 1;
+    LCD_D5 = (nibble >> 1) & 1;
+    LCD_D6 = (nibble >> 2) & 1;
+    LCD_D7 = (nibble >> 3) & 1;
+    LCD_EN = 1;
+    __delay_us(1); // Pulse enable
     LCD_EN = 0;
-    __delay_us(50);  // Short delay for LCD to process
+    __delay_us(50); // Wait for LCD to process
 }
 
-// Private helper: Sends full 8-bit command (in two nibbles)
-static void LCD_Command(unsigned char cmd) {
-    LCD_SendNibble(cmd >> 4, 0);  // High nibble
-    LCD_SendNibble(cmd & 0x0F, 0);  // Low nibble
+void LCD_Command(uint8_t cmd) {
+    LCD_RS = 0;
+    LCD_WriteNibble(cmd >> 4);
+    LCD_WriteNibble(cmd);
+    __delay_us(50);
 }
 
-// Sends a single 8-bit data byte (in two nibbles) - moved before LCD_String
-void LCD_Data(unsigned char data) {
-    LCD_SendNibble(data >> 4, 1);
-    LCD_SendNibble(data & 0x0F, 1);
+void LCD_WriteChar(uint8_t chr) {
+    LCD_RS = 1;
+    LCD_WriteNibble(chr >> 4);
+    LCD_WriteNibble(chr);
+    __delay_us(50);
 }
 
-// Initializes LCD in 4-bit mode for 4x20 display
-void LCD_Init(void) {
-    __delay_ms(15);  // Power-on delay
-    LCD_SendNibble(0x03, 0);
-    __delay_ms(5);
-    LCD_SendNibble(0x03, 0);
-    __delay_us(100);
-    LCD_SendNibble(0x03, 0);
-    __delay_us(100);
-    LCD_SendNibble(0x02, 0);  // Set 4-bit mode
-    __delay_us(100);
-    LCD_Command(0x28);  // 4-bit, 2-line mode (extends to 4 lines on your LCD)
-    LCD_Command(0x0C);  // Display on, cursor off, no blink
-    LCD_Command(0x06);  // Entry mode: increment cursor
-    LCD_Command(0x01);  // Clear display
-    __delay_ms(2);
+void LCD_SetCursor(uint8_t line, uint8_t pos) {
+    uint8_t addr;
+    switch (line) {
+        case 1: addr = 0x00 + pos; break;
+        case 2: addr = 0x40 + pos; break;
+        case 3: addr = 0x14 + pos; break;
+        case 4: addr = 0x54 + pos; break;
+        default: addr = 0x00; break;
+    }
+    LCD_Command(0x80 | addr);
 }
 
-// Clears the entire screen
 void LCD_Clear(void) {
     LCD_Command(0x01);
     __delay_ms(2);
 }
 
-// Sets cursor position (row 0-3, col 0-19 for 4x20)
-void LCD_SetCursor(unsigned char row, unsigned char col) {
-    unsigned char addr;
-    switch (row) {
-        case 0: addr = 0x00; break;
-        case 1: addr = 0x40; break;
-        case 2: addr = 0x14; break;  // Specific to 4x20 mapping
-        case 3: addr = 0x54; break;
-        default: addr = 0x00;
-    }
-    addr += col;
-    LCD_Command(0x80 | addr);  // Set DDRAM address
-}
-
-// Prints a null-terminated string
-void LCD_String(const char *str) {
-    while (*str) {  // Loop until end of string
-        LCD_Data(*str++);
-    }
+void LCD_Init(void) {
+    TRISA = 0x00; // All PORTA as output for LCD
+    LCD_RS = 0;
+    LCD_RW = 0;
+    LCD_EN = 0;
+    LCD_D4 = 0;
+    LCD_D5 = 0;
+    LCD_D6 = 0;
+    LCD_D7 = 0;
+    __delay_ms(50); // Power-up delay
+    LCD_WriteNibble(0x03);
+    __delay_ms(5);
+    LCD_WriteNibble(0x03);
+    __delay_ms(5);
+    LCD_WriteNibble(0x03);
+    __delay_ms(5);
+    LCD_WriteNibble(0x02); // 4-bit mode
+    LCD_Command(0x28); // 4-bit, 2 lines, 5x8 font
+    LCD_Command(0x0C); // Display on, cursor off
+    LCD_Command(0x06); // Entry mode: increment, no shift
+    LCD_Clear();
 }

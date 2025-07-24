@@ -28,19 +28,17 @@
 
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-// config.h
-// config.h
-#ifndef CONFIG_H
-#define CONFIG_H
+// rtc.h
+// rtc.h
+#ifndef RTC_H
+#define RTC_H
 
 #include <xc.h>
+#include <stdint.h>
 
-// Configuration bits for PIC18F2525
-#pragma config FOSC = INTIO67    // Internal oscillator, RA6 and RA7 as I/O
-#pragma config WDT = OFF         // Watchdog Timer off
-#pragma config MCLRE = ON        // MCLR pin enabled
-#pragma config LVP = OFF         // Low-voltage programming off
+#define I2C_ADDR_DS3231 0xD0
 
-#define _XTAL_FREQ 16000000UL  // 16 MHz internal oscillator
+void RTC_Init(void);
+void RTC_ReadTime(uint8_t *time);
 
-#endif /* CONFIG_H */
+#endif
